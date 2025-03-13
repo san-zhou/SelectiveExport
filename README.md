@@ -9,6 +9,7 @@ A tool for selectively exporting files from a source directory to a target direc
 - Maintain original directory structure during export
 - Support for custom export rules
 - Command-line interface for easy operation
+- Export data in multiple formats (XML and CSV)
 
 ## Build
 

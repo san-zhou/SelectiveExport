@@ -8,6 +8,7 @@ using KeePassLib.Security;
 using System.IO;
 using System.Xml;
 using System.Linq;
+using System.Text;  // 添加此行
 
 namespace SelectiveExport
 {
@@ -58,14 +59,84 @@ namespace SelectiveExport
 
       using (SaveFileDialog sfd = new SaveFileDialog())
       {
-        sfd.Filter = "XML 文件 (*.xml)|*.xml|所有文件 (*.*)|*.*";
-        sfd.DefaultExt = "xml";
-        sfd.FileName = "KeePassExport.xml";
+        sfd.Filter = "CSV 文件 (*.csv)|*.csv|XML 文件 (*.xml)|*.xml|所有文件 (*.*)|*.*";
+        sfd.DefaultExt = "csv";
+        sfd.FileName = "KeePassExport";
 
         if (sfd.ShowDialog() == DialogResult.OK)
         {
-          ExportData(sfd.FileName, selectedEntries, selectedGroups);
+          string extension = Path.GetExtension(sfd.FileName).ToLower();
+          if (extension == ".csv")
+          {
+            ExportToCsv(sfd.FileName, selectedEntries, selectedGroups);
+          }
+          else
+          {
+            ExportData(sfd.FileName, selectedEntries, selectedGroups);
+          }
         }
+      }
+    }
+
+
+    private void ExportToCsv(string fileName,
+        IEnumerable<PwEntry> entries,
+        IEnumerable<PwGroup> groups)
+    {
+      using (StreamWriter writer = new StreamWriter(fileName, false, Encoding.UTF8))
+      {
+        // 写入CSV头
+        writer.WriteLine("Group,Title,UserName,Password,URL,Notes");
+
+        // 导出选中的条目
+        if (entries != null)
+        {
+          foreach (var entry in entries)
+          {
+            WriteCsvEntry(writer, "", entry);
+          }
+        }
+
+        // 导出选中的分组
+        if (groups != null)
+        {
+          foreach (var group in groups)
+          {
+            WriteCsvGroup(writer, group, group.Name);
+          }
+        }
+      }
+
+      MessageBox.Show("导出完成！", "成功",
+          MessageBoxButtons.OK, MessageBoxIcon.Information);
+    }
+
+    private void WriteCsvEntry(StreamWriter writer, string groupPath, PwEntry entry)
+    {
+      string[] fields = new string[]
+      {
+        groupPath,
+        entry.Strings.ReadSafe("Title"),
+        entry.Strings.ReadSafe("UserName"),
+        entry.Strings.ReadSafe("Password"),
+        entry.Strings.ReadSafe("URL"),
+        entry.Strings.ReadSafe("Notes")
+      };
+
+      writer.WriteLine(string.Join(",", fields.Select(field =>
+          $"\"{field.Replace("\"", "\"\"")}\"")));
+    }
+
+    private void WriteCsvGroup(StreamWriter writer, PwGroup group, string groupPath)
+    {
+      foreach (var entry in group.Entries)
+      {
+        WriteCsvEntry(writer, groupPath, entry);
+      }
+
+      foreach (var subGroup in group.Groups)
+      {
+        WriteCsvGroup(writer, subGroup, $"{groupPath}/{subGroup.Name}");
       }
     }
 
