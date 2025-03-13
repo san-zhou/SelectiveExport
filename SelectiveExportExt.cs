@@ -24,7 +24,7 @@ namespace SelectiveExport
 
       // 创建菜单项
       m_menuItem = new ToolStripMenuItem();
-      m_menuItem.Text = "导出选定项...";
+      m_menuItem.Text = "Export selected...";
       m_menuItem.Click += OnMenuExport;
 
       // 添加到工具菜单
@@ -52,14 +52,14 @@ namespace SelectiveExport
       if ((selectedEntries == null || selectedEntries.Count() == 0) &&
           (selectedGroups == null || selectedGroups.Count == 0))
       {
-        MessageBox.Show("请先选择要导出的条目或分组！", "提示",
+        MessageBox.Show("Please select the items or groups to export first！", "Prompt",
             MessageBoxButtons.OK, MessageBoxIcon.Information);
         return;
       }
 
       using (SaveFileDialog sfd = new SaveFileDialog())
       {
-        sfd.Filter = "CSV 文件 (*.csv)|*.csv|XML 文件 (*.xml)|*.xml|所有文件 (*.*)|*.*";
+        sfd.Filter = "CSV files (*.csv)|*.csv|XML files (*.xml)|*.xml|All files (*.*)|*.*";
         sfd.DefaultExt = "csv";
         sfd.FileName = "KeePassExport";
 

@@ -1,6 +1,6 @@
 # Selective Export
 
-A tool for selectively exporting files from a source directory to a target directory.
+SelectiveExport is a plug-in for KeePass 2.x plugin which lets you export entries  according to your selection. The current KeePass export all the entries  of the current database.
 
 ## Features
 
@@ -37,6 +37,8 @@ A tool for selectively exporting files from a source directory to a target direc
 1. Select entries or groups in KeePass
 2. Click "Export Selected Items..." in the Tools menu
 3. Choose save location and confirm
+   
+   
 
 ## Development Environment
 
