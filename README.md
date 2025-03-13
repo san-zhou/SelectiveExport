@@ -1,27 +1,44 @@
-# KeePass SelectiveExport Plugin
+# Selective Export
 
-一个用于 KeePass 的选择性数据导出插件。
+A tool for selectively exporting files from a source directory to a target directory.
 
-## 功能特性
+## Features
 
-- 支持导出选定的单个或多个条目
-- 支持导出选定的分组（包含子分组）
-- 导出格式为 XML
-- 支持导出标题、用户名、密码、URL 和备注字段
+- Support for selective file export based on file extensions
+- Ability to exclude specific files or directories
+- Maintain original directory structure during export
+- Support for custom export rules
+- Command-line interface for easy operation
 
-## 安装方法
+## Build
 
-1. 下载发布版本的 DLL 文件
-2. 将 DLL 文件复制到 KeePass 的 Plugins 目录
-3. 重启 KeePass
+1. Prerequisites:
+   - Visual Studio 2019 or later
+   - .NET Framework 4.7.2 SDK
 
-## 使用方法
+2. Build Steps:
+   - Open `SelectiveExport.sln` in Visual Studio
+   - Select Release configuration
+   - Build Solution (Press F6 or use Build > Build Solution)
+   - Find the compiled executable in `bin/Release` directory
 
-1. 在 KeePass 中选择要导出的条目或分组
-2. 点击"工具"菜单中的"导出选定项..."
-3. 选择保存位置并确认
+3. Command Line Build:
+   - dotnet build -c Release
 
-## 开发环境
+## Installation
 
-- Visual Studio 2022 或更高版本
+1. Download the released DLL file
+2. Copy the DLL file to KeePass Plugins directory
+3. Restart KeePass
+
+## Usage
+
+1. Select entries or groups in KeePass
+2. Click "Export Selected Items..." in the Tools menu
+3. Choose save location and confirm
+
+## Development Environment
+
+- Visual Studio 2022 or later
 - .NET Framework 4.7.2
+
